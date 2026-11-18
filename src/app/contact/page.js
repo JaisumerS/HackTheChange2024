@@ -1,7 +1,8 @@
 "use client";
-import React from "react";
+
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import React from "react";
 
 export default function ContactPage() {
   return (
@@ -11,7 +12,7 @@ export default function ContactPage() {
         <h1 className="text-3xl sm:text-4xl font-bold mb-6">Contact Us</h1>
         <p className="text-lg sm:text-xl text-center mb-8 max-w-lg">
           Have questions or need assistance? Please feel free to reach out, or
-          visit the City of Calgary's official website for more information on
+          visit the City of Calgary&apos;s official website for more information on
           public services, events, and resources.
         </p>
         <a

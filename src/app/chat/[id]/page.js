@@ -1,17 +1,18 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import {
   FaAngleLeft,
-  FaArrowUp,
   FaArrowDown,
+  FaArrowUp,
   FaChevronDown,
   FaChevronRight,
 } from "react-icons/fa";
+import React, { useCallback, useEffect, useState } from "react";
+
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function ConflictChatPage({ params }) {
   const { data: session, status } = useSession();
@@ -42,6 +43,20 @@ export default function ConflictChatPage({ params }) {
     }
   }, [id]);
 
+  // Function to sort thoughts based on selected filter
+  const sortThoughts = useCallback((thoughtsList) => {
+    return [...thoughtsList].sort((a, b) => {
+      if (filter === "mostLiked") {
+        return b.likes - b.dislikes - (a.likes - a.dislikes);
+      } else if (filter === "mostRecent") {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      } else if (filter === "mostReplies") {
+        return b.replyCount - a.replyCount;
+      }
+      return 0;
+    });
+  }, [filter]);
+
   useEffect(() => {
     if (id) {
       setIsLoadingThoughts(true); // Set loading to true before fetching
@@ -53,21 +68,7 @@ export default function ConflictChatPage({ params }) {
       };
       fetchThoughts();
     }
-  }, [id, filter]);
-
-  // Function to sort thoughts based on selected filter
-  const sortThoughts = (thoughtsList) => {
-    return thoughtsList.sort((a, b) => {
-      if (filter === "mostLiked") {
-        return b.likes - b.dislikes - (a.likes - a.dislikes);
-      } else if (filter === "mostRecent") {
-        return new Date(b.createdAt) - new Date(a.createdAt);
-      } else if (filter === "mostReplies") {
-        return b.replyCount - a.replyCount;
-      }
-      return 0;
-    });
-  };
+  }, [id, sortThoughts]);
 
   const toggleCollapse = (thoughtId) => {
     setCollapsedReplies((prev) => ({

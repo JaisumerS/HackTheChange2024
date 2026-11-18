@@ -1,19 +1,21 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import Navbar from "@/components/Navbar";
-import Sidebar from "./Sidebar";
-import { useEffect, useState } from "react";
-import Footer from "@/components/Footer";
 import {
   FaGlobeAfrica,
+  FaGlobeAmericas,
   FaGlobeAsia,
   FaGlobeEurope,
-  FaGlobeAmericas,
 } from "react-icons/fa";
+import { useEffect, useState } from "react";
+
+import Footer from "@/components/Footer";
 import { GiIsland } from "react-icons/gi";
+import Image from "next/image";
+import Navbar from "@/components/Navbar";
+import Sidebar from "./Sidebar";
 import { WiSnowflakeCold } from "react-icons/wi";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
@@ -141,9 +143,11 @@ export default function DashboardPage() {
                         className={`rounded-lg shadow-lg hover:shadow-xl p-1 bg-background border border-transparent hover:border-0 hover:bg-gradient-to-r ${gradients[continent]}`}
                       >
                         <div className="bg-background rounded-lg p-4">
-                          <img
+                          <Image
                             src={conflict.imageSrcUrl}
                             alt={conflict.title}
+                            width={640}
+                            height={320}
                             className="w-full h-48 object-cover rounded-md mb-4"
                           />
                           <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">

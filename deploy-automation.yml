@@ -1,0 +1,14 @@
+---
+- name: Deploy EmpowerNest static website to Minikube through Ansible
+  hosts: test
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Transfer and execute the Kubernetes deployment script
+      ansible.builtin.script: ./deploy-k8s-app.sh
+      register: script_output
+
+    - name: Display deployment execution logs
+      ansible.builtin.debug:
+        msg: "{{ script_output.stdout_lines }}"
+      when: script_output.stdout_lines is defined

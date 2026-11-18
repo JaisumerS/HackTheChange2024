@@ -1,12 +1,15 @@
 "use client";
+
+import "../app/globals.css";
+
 import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPaperPlane,
   faRobot,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import "../app/globals.css";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Chatbox = ({ conflict }) => {
   const [messages, setMessages] = useState([]);
@@ -22,7 +25,7 @@ const Chatbox = ({ conflict }) => {
       setIsTyping(true);
 
       try {
-        const response = await fetch("http://localhost:3000/api/ai", {
+        const response = await fetch("/api/ai", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
