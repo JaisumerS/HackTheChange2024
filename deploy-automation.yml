@@ -1,8 +1,9 @@
 ---
-- name: Deploy EmpowerNest static website to Minikube through Ansible
+- name: Deploy Full-Stack EmpowerNest to Kubernetes
   hosts: test
   become: true
   gather_facts: false
+
   tasks:
     - name: Transfer and execute the Kubernetes deployment script
       ansible.builtin.script: ./deploy-k8s-app.sh
@@ -10,5 +11,5 @@
 
     - name: Display deployment execution logs
       ansible.builtin.debug:
-        msg: "{{ script_output.stdout_lines }}"
-      when: script_output.stdout_lines is defined
+        msg: "{{ script_output.stdout_lines | default([]) }}"
+      when: not ansible_check_mode
