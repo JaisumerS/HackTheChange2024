@@ -35,10 +35,14 @@ else
     --port=80
 fi
 
-# Ensure the latest v1 image is pulled
+# Ensure the correct Docker Hub image is configured
+kubectl set image "deployment/$DEPLOYMENT" \
+  "$DEPLOYMENT=$IMAGE"
+
+# Always pull the current image when a pod starts
 kubectl patch deployment "$DEPLOYMENT" \
   --type=strategic \
-  -p '{"spec":{"template":{"spec":{"containers":[{"name":"empowernest-web","imagePullPolicy":"Always"}]}}}}'
+  -p "{\"spec\":{\"template\":{\"spec\":{\"containers\":[{\"name\":\"$DEPLOYMENT\",\"image\":\"$IMAGE\",\"imagePullPolicy\":\"Always\"}]}}}}"
 
 # STEP 3: Expose the Deployment using NodePort
 echo "=== Create NodePort Service ==="
